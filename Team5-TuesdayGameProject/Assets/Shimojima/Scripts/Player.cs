@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
 
     private bool isRotate = false;
     private int rotateArrowAngle = 0;
+    private bool isWalk = false;
+
+    private Animator animator;
 
     void Start()
     {
@@ -28,7 +31,8 @@ public class Player : MonoBehaviour
             senter = new GameObject().transform;
             senter.position = new Vector3(0, 20, 0);
         }
-        accelaration = 0;
+        if(accelaration == 0){ accelaration = 0; }
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -38,6 +42,8 @@ public class Player : MonoBehaviour
 
         if (h  != 0 || v != 0)
         {
+            if (!isWalk) { isWalk = true; animator.SetTrigger("WalkStart"); }
+
             //プレイヤーの加速
             if (moveSpeed < maxSpeed)
             {
@@ -46,12 +52,19 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if (isWalk) { isWalk = false; animator.SetTrigger("WalkEnd"); }
             //プレイヤーの減速
             if (moveSpeed > 0)
             {
                 moveSpeed *= decay;
+                if(moveSpeed < accelaration)
+                {
+                    moveSpeed = 0;
+                }
             }
         }
+
+        animator.SetFloat("Walk", moveSpeed);
 
         //以下デバッグ用カメラの回転
         if (isRotate) { return; }
@@ -83,6 +96,11 @@ public class Player : MonoBehaviour
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
         Vector3 moveForward = cameraForward * v + Camera.main.transform.right * h;
         transform.position += moveForward * moveSpeed;
+
+        if (moveForward != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(moveForward);
+        }
     }
 
     /// <summary>
