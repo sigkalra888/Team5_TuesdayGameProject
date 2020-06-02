@@ -88,3 +88,9 @@ public enum Element
 {
     cold, hot
 }
+
+
+public enum MateriaStatus
+{
+    GAS,LIQUID,SOLID
+}
