@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 #if UNITY_EDITOR
@@ -63,7 +64,7 @@ public class StageEditor : MonoBehaviour
     public GameObject stageRoot;
     
     [SerializeField,Tooltip("ステージに使う参照オブジェクト")]
-    private GameObject[] referenceObject, floorRefObj, prismRefObj;
+    private GameObject[] referenceObject;
     private int refObjIndex = 0;
     [Tooltip("配置するオブジェクト")]
     private GameObject stageObj;
@@ -352,16 +353,7 @@ public class StageEditor : MonoBehaviour
     {
         if (_StageObjects[cellIndex.x, cellIndex.y, cellIndex.z] != null) { Debug.Log("既にオブジェクトが設置されています"); return; }
         GameObject o;
-        int x = Random.Range(0, 6);
-        if (referenceObject[refObjIndex].name == "SandFloor")
-        {
-            o = Instantiate(floorRefObj[x]);
-        }
-        else if(referenceObject[refObjIndex].name == "Prism")
-        {
-            o = Instantiate(prismRefObj[x]);
-        }
-        else { o = Instantiate(obj); }
+        o = Instantiate(obj);
         o.name = obj.name;
         o.transform.localPosition = gridPos[cellIndex.x,cellIndex.y,cellIndex.z].transform.localPosition;
         o.transform.localEulerAngles += objAngle;
@@ -396,17 +388,7 @@ public class StageEditor : MonoBehaviour
             if (obj.name == objName)
             {
                 GameObject o;
-                int x = Random.Range(0, 6);
-                if (referenceObject[refObjIndex].name == "SandFloor")
-                {
-                    o = Instantiate(floorRefObj[x]);
-                }
-                else if (referenceObject[refObjIndex].name == "Prism")
-                {
-                    o = Instantiate(prismRefObj[x]);
-                }
-                else { o = Instantiate(referenceObject[refObjIndex]); }
-                
+                o = Instantiate(referenceObject[refObjIndex]);
                 o.name = referenceObject[refObjIndex].name;
                 o.transform.localPosition = obj.transform.localPosition;
                 o.transform.localEulerAngles += obj.transform.localEulerAngles;
@@ -571,6 +553,7 @@ public class StageEditorCustom : Editor
         if (GUILayout.Button("LoadStage"))
         {
             if (!EditorApplication.isPlaying) { return; }
+            if (!pre) { Debug.Log("エディットデータが参照されていません。"); return; }
             LoadStage(stageEditor);
             stageEditor.isCreateStage = true;
         }
