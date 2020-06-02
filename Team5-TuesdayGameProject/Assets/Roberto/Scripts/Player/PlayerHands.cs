@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerHands : MonoBehaviour
 {
     public float radius = 5;
-
+    public  int cold = -10;
+    public int hot = 10;
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Z))
@@ -16,7 +17,16 @@ public class PlayerHands : MonoBehaviour
         {
             UseElement(Element.cold);
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            changeGradeToTarget(hot);
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            changeGradeToTarget(cold);
+        }
+
     }
     //for debug
     private void OnDrawGizmos()
@@ -37,4 +47,17 @@ public class PlayerHands : MonoBehaviour
         }
     }
    
+    void changeGradeToTarget(int value)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        //use sphere raycast for manipulate adiacent objects
+        foreach (var c in colliders)
+        {
+            ICelsius manipulate = c.GetComponent<ICelsius>();
+            if (manipulate != null)
+            {
+                manipulate.Change(value);
+            }
+        }
+    }
 }
