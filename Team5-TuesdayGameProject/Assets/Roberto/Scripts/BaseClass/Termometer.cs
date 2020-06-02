@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class Termometer : MonoBehaviour, ICelsius
 {
+    //debugの為
     Color red = Color.red;
     Color blue = Color.blue;
     Color white = Color.white;
+　　MeshRenderer rend;
 
-    MeshRenderer rend;
+    //始まりの温度
     public int initialGrades = 20;
+    //現在温度
     [SerializeField]
     int grades = 20;
+    //リセット時間
     public float resetTime = 2;
     float couter = 0;
+    //沸騰/
     bool isFrozen() { return grades <= 0; }
     bool Boil() { return grades >= 90; }
     
@@ -26,7 +31,9 @@ public class Termometer : MonoBehaviour, ICelsius
     }
     private void Update()
     {
+        //状況のアップデート
         statusCheck();
+        //始めの温度と違うの時タイマーに沿って上がる又は減る
         bool reset = grades != initialGrades;
         if (!reset)
         {
@@ -49,11 +56,14 @@ public class Termometer : MonoBehaviour, ICelsius
         }
        
     }
+    //温度を増える/減る関数
     public void Change(int grade)
     {
         grades += grade;
     }
-    void statusCheck()
+    
+    //暖かいや冷たいの時の処理
+    public virtual void statusCheck()
     {
         if (Boil())
         {

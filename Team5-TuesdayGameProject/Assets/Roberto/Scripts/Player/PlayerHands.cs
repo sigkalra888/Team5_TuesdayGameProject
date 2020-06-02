@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerHands : MonoBehaviour
 {
     public float radius = 5;
+    //
     public  int cold = -10;
     public int hot = 10;
+
     void Update()
     {
+        //状態の変更
         if(Input.GetKeyDown(KeyCode.Z))
         {
             UseElement(Element.hot);
@@ -18,12 +21,15 @@ public class PlayerHands : MonoBehaviour
             UseElement(Element.cold);
         }
 
+        //温度の変更
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            //温度+値
             changeGradeToTarget(hot);
         }
         if (Input.GetKeyDown(KeyCode.W))
         {
+            //温度+ (-値）
             changeGradeToTarget(cold);
         }
 
@@ -33,6 +39,8 @@ public class PlayerHands : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position, radius);
     }
+
+    // //状態の変更
     void UseElement(Element e)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
@@ -46,7 +54,7 @@ public class PlayerHands : MonoBehaviour
             }
         }
     }
-   
+    // //温度の変更
     void changeGradeToTarget(int value)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius);

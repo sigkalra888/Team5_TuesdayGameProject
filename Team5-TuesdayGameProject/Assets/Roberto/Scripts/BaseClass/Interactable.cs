@@ -75,7 +75,7 @@ public class Interactable : MonoBehaviour,Imanipulate
     {
 
     }
-    //return to the standard conditions
+    //return to the standard conditions　//元の状況に戻る
     public virtual void Ripristinate()
     {
 
@@ -84,12 +84,13 @@ public class Interactable : MonoBehaviour,Imanipulate
 
 }
 
+//冷たい、熱い
 public enum Element
 {
     cold, hot
 }
 
-
+//ガースー、液体、個体
 public enum MateriaStatus
 {
     GAS,LIQUID,SOLID

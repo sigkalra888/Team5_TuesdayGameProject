@@ -5,8 +5,10 @@ using UnityEngine;
 public class Water : MonoBehaviour,Imanipulate
 {
     public MateriaStatus initialMateria;
-
+    //
     public MateriaStatus materia;
+    
+    //デバッグの為
     Collider coll;
     MeshRenderer rend;
     private void Start()
@@ -15,6 +17,8 @@ public class Water : MonoBehaviour,Imanipulate
         rend = GetComponent<MeshRenderer>();
         become(initialMateria);
     }
+
+    //要素を入れて、現在元素によって元素を変える
     public void Change(Element e)
     {
         switch (e)
@@ -42,6 +46,7 @@ public class Water : MonoBehaviour,Imanipulate
         }
     }
 
+    //元素を変える関数
     void become(MateriaStatus s)
     {
         materia = s;
