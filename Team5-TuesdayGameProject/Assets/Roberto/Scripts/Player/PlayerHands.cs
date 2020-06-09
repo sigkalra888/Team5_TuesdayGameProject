@@ -4,35 +4,43 @@ using UnityEngine;
 
 public class PlayerHands : MonoBehaviour
 {
-    public float radius = 5;
+    [SerializeField]
+    float radius = 5;
     //
-    public  int cold = -10;
-    public int hot = 10;
-
+    [SerializeField]
+    int cold = -10;
+    [SerializeField]
+    int hot = 10;
+    [SerializeField]
+    KeyCode key = KeyCode.F;
+    [SerializeField]
+    KeyCode up_Hot = KeyCode.UpArrow;
+    [SerializeField]
+    KeyCode down_Cold = KeyCode.DownArrow;
     void Update()
     {
         //状態の変更
-        if(Input.GetKeyDown(KeyCode.Z))
+        bool interacting = Input.GetKey(key);
+        
+        if(interacting)
         {
-            UseElement(Element.hot);
-        }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            UseElement(Element.cold);
-        }
+            if(Input.GetKey(up_Hot))
+            {
+                //温度の変更
+                UseElement(Element.hot);
+                //温度+値
+                changeGradeToTarget(hot);
+            }
 
-        //温度の変更
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            //温度+値
-            changeGradeToTarget(hot);
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            //温度+ (-値）
-            changeGradeToTarget(cold);
-        }
+            if (Input.GetKey(down_Cold))
+            {
+                //温度の変更
+                UseElement(Element.cold);
+                //温度+ (-値）
+                changeGradeToTarget(cold);
+            }
 
+        }
     }
     //for debug
     private void OnDrawGizmos()
