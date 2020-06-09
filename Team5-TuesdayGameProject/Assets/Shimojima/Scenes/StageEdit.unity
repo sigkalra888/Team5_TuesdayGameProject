@@ -162,7 +162,7 @@ MonoBehaviour:
   cell: []
   stageRoot: {fileID: 0}
   referenceObject:
-  - {fileID: 6421906496314665083, guid: 012262be3ee00874b8f844e9e903ae27, type: 3}
+  - {fileID: 2724678761368354194, guid: 1eeb42f47814dc64ea0156406d4598aa, type: 3}
 --- !u!4 &62566011
 Transform:
   m_ObjectHideFlags: 0

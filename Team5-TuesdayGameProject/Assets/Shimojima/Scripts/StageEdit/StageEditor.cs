@@ -297,7 +297,7 @@ public class StageEditor : MonoBehaviour
             AssetDatabase.DeleteAsset("Assets/Shimojima/EditData/EditData_" + stageName + ".asset");
             AssetDatabase.SaveAssets();
         }
-        Data.stage = (GameObject)PrefabUtility.SaveAsPrefabAssetAndConnect(stageRoot, "Assets/Shimojima/Prefabs/Stage/" + stageName + ".prefab", InteractionMode.UserAction);
+        Data.stage = (GameObject)PrefabUtility.SaveAsPrefabAssetAndConnect(stageRoot, "Assets/Shimojima/Prefabs/Stages/" + stageName + ".prefab", InteractionMode.UserAction);
         AssetDatabase.CreateAsset(Data, "Assets/Shimojima/EditData/EditData_" + stageName + ".asset");
         Array3DForLoop(Vector3Int.zero, cells, 1);
 #endif
