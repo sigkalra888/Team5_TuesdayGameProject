@@ -5,8 +5,9 @@ using UnityEngine;
 public class MoveChar : MonoBehaviour
 {
     [SerializeField]
-    private float distance = 1;
+    private float distance = 1; 
     private bool hittingBool = false;
+    private bool pushActionBool = false;
     [SerializeField]
     private GameObject BOX;
     private Rigidbody rigidbody;
@@ -17,7 +18,8 @@ public class MoveChar : MonoBehaviour
     }
 
     void Update()
-    {
+    {        
+        PushActionKey();
         CharMove();
         PushBox();
     }
@@ -43,26 +45,38 @@ public class MoveChar : MonoBehaviour
 
     private void PushBox()
     {
-        if (Input.GetKeyDown(KeyCode.F) && hittingBool)
+        if (hittingBool)
         {
-            rigidbody.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+        }
+        else
+        {
+            rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
         }
     }
 
     private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.name == "Box")
+        if (collision.gameObject.name == "Box" && pushActionBool)
         {
             hittingBool = true;
-            Debug.Log("true");
         }
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.name == "Box")
+        else
         {
-            hittingBool = false;
-            Debug.Log("false");
+            hittingBool = false;            
+        }       
+    }
+
+    private void PushActionKey()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            pushActionBool = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            pushActionBool = false;
         }
     }
 }
