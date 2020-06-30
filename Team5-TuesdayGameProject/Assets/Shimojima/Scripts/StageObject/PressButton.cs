@@ -22,15 +22,6 @@ public class PressButton : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            Press();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Return();
-        }
     }
 
     /// <summary>
