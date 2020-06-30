@@ -6,6 +6,6 @@ public class toStage : MonoBehaviour
 {
     public void stage1()
     {
-        SceneChanger.Instance.toStage1Bool = true;
+        
     }
 }
