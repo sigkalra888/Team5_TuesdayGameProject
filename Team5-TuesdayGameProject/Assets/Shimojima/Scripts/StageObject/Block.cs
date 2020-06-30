@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Block : MonoBehaviour
 {
@@ -35,6 +36,8 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "StageEdit") { return; }
         //初期温度に変更
         temperature = defaultTemperature;
         brockName = name;

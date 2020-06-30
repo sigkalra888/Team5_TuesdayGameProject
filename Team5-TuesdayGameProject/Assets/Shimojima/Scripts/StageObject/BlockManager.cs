@@ -10,6 +10,11 @@ public class BlockManager : Singleton<BlockManager>
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GameObject o = new GameObject();
+            ChangeBlock(o);
+        }
     }
 
     //ブロックの温度交換
@@ -30,6 +35,7 @@ public class BlockManager : Singleton<BlockManager>
             {
                 changeBlocks[i].GetComponent<Block>().BlockColorChange();
                 changeBlocks[i].GetComponent<Block>().changeTemperature = true;
+                changeBlocks[i] = null;
             }
         }
     }
