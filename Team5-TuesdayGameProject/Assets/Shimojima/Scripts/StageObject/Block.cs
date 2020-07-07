@@ -50,6 +50,27 @@ public class Block : MonoBehaviour
         ReturnTemperature();
     }
 
+    //温度交換による色の変化
+    public void BlockColorChange()
+    {
+        switch (temperature)
+        {
+            case "Hot":
+                GetComponent<MeshRenderer>().material.color = hot;
+                myC = hot;
+                break;
+            case "Ice":
+                GetComponent<MeshRenderer>().material.color = ice;
+                myC = ice;
+                break;
+            case "Normal":
+                GetComponent<MeshRenderer>().material.color = normal;
+                myC = normal;
+                break;
+        }
+        totalTime = 0;
+    }
+
     /// <summary>
     /// 初期温度に戻る処理
     /// </summary>
@@ -128,26 +149,6 @@ public class Block : MonoBehaviour
         {
             GetComponent<MeshRenderer>().material.color = myC;
             myC = new Color(myC.r + c_ChageSpeed3, myC.g + c_ChageSpeed3, myC.b - c_ChageSpeed2, myC.a);
-        }
-    }
-
-    //温度交換による色の変化
-    public void BlockColorChange()
-    {
-        switch (temperature)
-        {
-            case "Hot":
-                GetComponent<MeshRenderer>().material.color = hot;
-                myC = hot;
-                break;
-            case "Ice":
-                GetComponent<MeshRenderer>().material.color = ice;
-                myC = ice;
-                break;
-            case "Normal":
-                GetComponent<MeshRenderer>().material.color = normal;
-                myC = normal;
-                break;
         }
     }
 }

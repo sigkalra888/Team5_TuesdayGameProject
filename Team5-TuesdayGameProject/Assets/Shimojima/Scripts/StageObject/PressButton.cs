@@ -14,7 +14,8 @@ public class PressButton : MonoBehaviour
     private GameObject pressP;
     public GameObject gate;
 
-    private bool isPress = false;
+    [HideInInspector]
+    public bool isPress = false;
 
     void Awake()
     {
@@ -35,15 +36,17 @@ public class PressButton : MonoBehaviour
         isPress = true;
         animator.SetTrigger("Press");
         pressP.GetComponent<MeshRenderer>().material.color = pressC;
+        gate.GetComponent<Animator>().SetTrigger("Open");
     }
 
     /// <summary>
     /// 押されてない状態に戻る処理
     /// </summary>
-    private void Return()
+    public void Return()
     {
         isPress = false;
         animator.SetTrigger("Return");
         pressP.GetComponent<MeshRenderer>().material.color = defC;
+        gate.GetComponent<Animator>().SetTrigger("Close");
     }
 }
