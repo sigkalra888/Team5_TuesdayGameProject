@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PressButton : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class PressButton : MonoBehaviour
 
     [SerializeField]
     private GameObject pressP;
+    public GameObject gate;
 
     private bool isPress = false;
 
     void Awake()
     {
+        if(SceneManager.GetActiveScene().name == "StageEdit") { return; }
         animator = GetComponent<Animator>();
         defC = pressP.GetComponent<MeshRenderer>().material.color;
     }
