@@ -32,6 +32,7 @@ public class Locomotion : MonoBehaviour
     [HideInInspector]
     public Vector3 top;
     bool reachTheTop = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -50,6 +51,9 @@ public class Locomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool interacting = hands.interacting;
+        if (interacting) return;
+
         if (climbing)
         {
             climbHandler();
