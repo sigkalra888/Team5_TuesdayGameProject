@@ -68,10 +68,10 @@ public class PlayerHands : MonoBehaviour
         }
     }
     //for debug
-    private void OnDrawGizmos()
+ /*   private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, radius);
-    }
+    }*/
 
     // //状態の変更
     void UseElement(Element e)
