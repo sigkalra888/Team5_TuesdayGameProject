@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/Iwasaki.unity
+    guid: 8bbbb676ea751f94d95b013968d1be8e
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/Stage1.unity
+    guid: dac384de440f4ae459ced58d49e3c290
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/Stage2.unity
+    guid: b15847842b62d1d4480508c7aeebfcd6
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/StageSelect.unity
+    guid: e855d8f22915f2d4f98eaf24ec90b488
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/Title.unity
+    guid: 6fd3d0f228d1ca54988e779f4d0ac50f
   m_configObjects: {}
