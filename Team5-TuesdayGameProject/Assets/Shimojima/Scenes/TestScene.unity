@@ -245,10 +245,10 @@ MonoBehaviour:
   - {fileID: 0}
   buttonNum: 0
   b:
-  - block1: {fileID: 0}
-    block2: {fileID: 0}
-  - block1: {fileID: 0}
-    block2: {fileID: 0}
+  - block1: {fileID: 7260604406352735410}
+    block2: {fileID: 3880819985699956735}
+  - block1: {fileID: 3880819985699956735}
+    block2: {fileID: 7127291137716841670}
   - block1: {fileID: 0}
     block2: {fileID: 0}
 --- !u!4 &316771286
