@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Iwasaki/Scene/Title.unity
     guid: 6fd3d0f228d1ca54988e779f4d0ac50f
+  - enabled: 1
+    path: Assets/Iwasaki/Scene/Clear.unity
+    guid: 3565c42f8c5e8444e8b47c5cee019f81
   m_configObjects: {}
