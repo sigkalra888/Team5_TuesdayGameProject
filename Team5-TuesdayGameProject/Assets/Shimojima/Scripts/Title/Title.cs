@@ -36,7 +36,7 @@ public class Title : MonoBehaviour
 
             if (sTime + 1 < time)
             {
-                SceneChanger.Instance.LoadScene(SceneChanger.SceneName.StageSelect);
+                SceneChanger.Instance.LoadScene(SceneChanger.SceneName.TestScene);
             }
             
         }

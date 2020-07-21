@@ -26,6 +26,7 @@ public class PressButton : MonoBehaviour
 
     void Update()
     {
+        RayHit();
     }
 
     /// <summary>
@@ -48,5 +49,25 @@ public class PressButton : MonoBehaviour
         animator.SetTrigger("Return");
         pressP.GetComponent<MeshRenderer>().material.color = defC;
         gate.GetComponent<Animator>().SetTrigger("Close");
+    }
+
+    private void RayHit()
+    {
+        Vector3 myPos = pressP.transform.position;
+        Ray ray = new Ray(myPos , new Vector3(0, 1, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 0.5f))
+        {
+            if (isPress) { return; }
+            if (hit.collider.gameObject.name == "Box")
+            {
+                Press();
+            }
+        }
+        else
+        {
+            if (!isPress) { return; }
+            Return();
+        }
     }
 }

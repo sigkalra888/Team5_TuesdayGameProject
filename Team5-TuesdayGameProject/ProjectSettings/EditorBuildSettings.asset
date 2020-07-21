@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Iwasaki/Scene/StageSelect.unity
     guid: e855d8f22915f2d4f98eaf24ec90b488
   - enabled: 1
-    path: Assets/Iwasaki/Scene/Title.unity
-    guid: 6fd3d0f228d1ca54988e779f4d0ac50f
+    path: Assets/Shimojima/Scenes/Title.unity
+    guid: 7a6a310afc314454a94eb3adac773cf0
+  - enabled: 1
+    path: Assets/Shimojima/Scenes/TestScene.unity
+    guid: cc7c75ea9b423e44a9232d8db64d2912
   m_configObjects: {}
