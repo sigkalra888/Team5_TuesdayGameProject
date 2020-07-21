@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PressButton : MonoBehaviour
 {
@@ -11,11 +12,14 @@ public class PressButton : MonoBehaviour
 
     [SerializeField]
     private GameObject pressP;
+    public GameObject gate;
 
-    private bool isPress = false;
+    [HideInInspector]
+    public bool isPress = false;
 
     void Awake()
     {
+        if(SceneManager.GetActiveScene().name == "StageEdit") { return; }
         animator = GetComponent<Animator>();
         defC = pressP.GetComponent<MeshRenderer>().material.color;
     }
@@ -32,15 +36,17 @@ public class PressButton : MonoBehaviour
         isPress = true;
         animator.SetTrigger("Press");
         pressP.GetComponent<MeshRenderer>().material.color = pressC;
+        gate.GetComponent<Animator>().SetTrigger("Open");
     }
 
     /// <summary>
     /// 押されてない状態に戻る処理
     /// </summary>
-    private void Return()
+    public void Return()
     {
         isPress = false;
         animator.SetTrigger("Return");
         pressP.GetComponent<MeshRenderer>().material.color = defC;
+        gate.GetComponent<Animator>().SetTrigger("Close");
     }
 }

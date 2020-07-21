@@ -68,6 +68,7 @@ public class StageEditor : MonoBehaviour
     private int refObjIndex = 0;
     [Tooltip("配置するオブジェクト")]
     private GameObject stageObj;
+    private Vector3Int switchObjNum = new Vector3Int(-1, -1, -1);
 
     private Vector3 objAngle;
 
@@ -336,8 +337,14 @@ public class StageEditor : MonoBehaviour
     /// </summary>
     private void ChangeStageObject()
     {
+        if(stageObj.name == "GateRoot") 
+        {
+            Debug.Log(_StageObjects[switchObjNum.x, switchObjNum.y, switchObjNum.z].name + "を削除しました");
+            Destroy(_StageObjects[switchObjNum.x, switchObjNum.y, switchObjNum.z]);
+            gridPos[switchObjNum.x, switchObjNum.y, switchObjNum.z].GetComponent<HighlightObject>().IsAlreadyInstalled = false;
+        }
         refObjIndex++;
-        if(refObjIndex == referenceObject.Length) { refObjIndex = 0; }
+        if(refObjIndex == referenceObject.Length - 1) { refObjIndex = 0; }
 
         stageObj = referenceObject[refObjIndex];
         Destroy(guideObj.transform.GetChild(1).gameObject);
@@ -362,6 +369,21 @@ public class StageEditor : MonoBehaviour
         
         _StageObjects[cellIndex.x, cellIndex.y, cellIndex.z] = o;
         gridPos[cellIndex.x, cellIndex.y, cellIndex.z].GetComponent<HighlightObject>().IsAlreadyInstalled = true;
+        if(obj.name == "Button")
+        {
+            stageObj = referenceObject[referenceObject.Length - 1];
+            Destroy(guideObj.transform.GetChild(1).gameObject);
+            Instantiate(stageObj).AddComponent<GuidObjectInit>().InitGuidObject(guideObj, referenceObject[referenceObject.Length - 1], gridPos[cellNum.x, cellNum.y, cellNum.z]);
+            switchObjNum = cellIndex;
+        }
+        else if (obj.name == "GateRoot")
+        {
+            _StageObjects[switchObjNum.x, switchObjNum.y, switchObjNum.z].GetComponent<PressButton>().gate = o;
+            stageObj = referenceObject[refObjIndex];
+            Destroy(guideObj.transform.GetChild(1).gameObject);
+            Instantiate(stageObj).AddComponent<GuidObjectInit>().InitGuidObject(guideObj, referenceObject[referenceObject.Length - 1], gridPos[cellNum.x, cellNum.y, cellNum.z]);
+            switchObjNum = new Vector3Int(-1, -1, -1);
+        }
         if(rangeSelectionState == RangeSelectionState.Stay) { return; }
         MakeObjectSkeleton();
     }
