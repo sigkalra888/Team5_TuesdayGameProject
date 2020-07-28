@@ -5,12 +5,7 @@ using UnityEngine;
 public class BlockManager : Singleton<BlockManager>
 {
     public GameObject[] changeBlocks = new GameObject[2];
-    private bool doChange = false;
-
-
-    private void Update()
-    {
-    }
+   
 
     //ブロックの温度交換
     public void ChangeBlock(GameObject block)

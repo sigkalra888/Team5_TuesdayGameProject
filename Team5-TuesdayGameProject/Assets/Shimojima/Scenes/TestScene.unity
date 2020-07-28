@@ -340,8 +340,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroy: 1
   changeBlocks:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 3880819985699956735}
+  - {fileID: 7260604406352735410}
 --- !u!4 &523934598
 Transform:
   m_ObjectHideFlags: 0
@@ -3796,7 +3796,7 @@ GameObject:
   - component: {fileID: 1708572280751858588}
   m_Layer: 0
   m_Name: Box
-  m_TagString: Untagged
+  m_TagString: Box
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8298,13 +8298,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 5
-  cold: -10
-  hot: 10
-  key: 102
-  up_Hot: 273
-  down_Cold: 274
+  InvertInput: 102
   push_box_Key: 112
   pushBox: 0
+  interacting: 0
 --- !u!114 &4646890658676636086
 MonoBehaviour:
   m_ObjectHideFlags: 0
