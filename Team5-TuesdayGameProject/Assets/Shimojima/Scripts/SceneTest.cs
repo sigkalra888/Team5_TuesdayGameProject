@@ -34,7 +34,7 @@ public class SceneTest : MonoBehaviour
             BlockManager.Instance.changeBlocks[0] = b[0].block1;
             BlockManager.Instance.changeBlocks[1] = b[0].block2;
             GameObject o = new GameObject();
-            BlockManager.Instance.ChangeBlock(o);
+            BlockManager.Instance.SetBlock(o);
             Destroy(o);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -42,7 +42,7 @@ public class SceneTest : MonoBehaviour
             BlockManager.Instance.changeBlocks[0] = b[1].block1;
             BlockManager.Instance.changeBlocks[1] = b[1].block2;
             GameObject o = new GameObject();
-            BlockManager.Instance.ChangeBlock(o);
+            BlockManager.Instance.SetBlock(o);
             Destroy(o);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -50,8 +50,8 @@ public class SceneTest : MonoBehaviour
             BlockManager.Instance.changeBlocks[0] = b[2].block1;
             BlockManager.Instance.changeBlocks[1] = b[2].block2;
             GameObject o = new GameObject();
-            BlockManager.Instance.ChangeBlock(o);
-            Destroy(o); BlockManager.Instance.ChangeBlock(b[2].block2);
+            BlockManager.Instance.SetBlock(o);
+            Destroy(o); BlockManager.Instance.SetBlock(b[2].block2);
         }
     }
 

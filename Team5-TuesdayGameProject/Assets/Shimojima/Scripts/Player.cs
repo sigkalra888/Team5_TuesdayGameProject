@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -21,7 +22,17 @@ public class Player : MonoBehaviour
     private int rotateArrowAngle = 0;
     private bool isWalk = false;
 
+    private Vector3 myPos = Vector3.zero;
+    private Quaternion myQ = new Quaternion();
+
     private Animator animator;
+
+    [SerializeField]
+    private Image selectUI;
+    [SerializeField]
+    private Sprite[] images;
+
+    private GameObject targetObj;
 
     void Start()
     {
@@ -39,6 +50,8 @@ public class Player : MonoBehaviour
     {
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
+        myPos = transform.position;
+        myQ = transform.rotation;
 
         if (h  != 0 || v != 0)
         {
@@ -64,7 +77,17 @@ public class Player : MonoBehaviour
             }
         }
 
+        if(targetObj != null)
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                targetObj.GetComponent<Block>().isSelected = true;
+                BlockManager.Instance.SetBlock(targetObj);
+            }
+        }
+
         animator.SetFloat("Walk", moveSpeed);
+        RayHitCheack();
 
         //以下デバッグ用カメラの回転
         if (isRotate) { return; }
@@ -109,6 +132,51 @@ public class Player : MonoBehaviour
     private void Jump()
     {
 
+    }
+
+    //UI表示テスト用
+    private void RayHitCheack()
+    {
+        Vector3 startPos =myPos + (myQ * new Vector3(0, 0.5f, 0.4f));
+        Ray ray = new Ray(startPos, new Vector3(0, -1, 0));
+        Debug.DrawRay(ray.origin, ray.direction, Color.red, 0.5f);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 0.5f))
+        {
+            GameObject obj = hit.collider.gameObject;
+            if (obj.gameObject.layer == 10)
+            {
+                if (!obj.GetComponent<Block>().highLightObj.activeSelf) { obj.GetComponent<Block>().highLightObj.SetActive(true); }
+                if (!obj.GetComponent<Block>().isSelected)
+                {
+                    selectUI.sprite = images[0];
+                }
+                else
+                {
+                    selectUI.sprite = images[1];
+                }
+
+                if (targetObj != null && targetObj != obj) { targetObj.GetComponent<Block>().highLightObj.SetActive(false); }
+
+                if (selectUI.IsActive()) { return; }
+                selectUI.gameObject.SetActive(true);
+                targetObj = obj;
+            }
+            else
+            {
+                if (!selectUI.IsActive()) { return; }
+                selectUI.gameObject.SetActive(false);
+                targetObj.GetComponent<Block>().highLightObj.SetActive(false);
+                targetObj = null;
+            }
+        }
+        else
+        {
+            if (!selectUI.IsActive()) { return; }
+            selectUI.gameObject.SetActive(false);
+            targetObj.GetComponent<Block>().highLightObj.SetActive(false);
+            targetObj = null;
+        }
     }
 
     /// <summary>

@@ -20,6 +20,11 @@ public class Block : MonoBehaviour
     private float resetTime = 0;
     private float totalTime = 0;
 
+    [HideInInspector]
+    public bool isSelected = false; //プレイヤーに選択されているかの判定
+
+    public GameObject highLightObj;
+
     [SerializeField]
     private float c_ChageSpeed1 = 0;
     [SerializeField]
