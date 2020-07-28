@@ -26,10 +26,16 @@ public class PlayerHands : MonoBehaviour
     public bool HASBOX() { return hasBox; }
     bool hasBox = false;
     public bool pushBox;
+    Animator anim;
+    public bool interacting;
+    private void Start()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
     void Update()
     {
         //状態の変更
-        bool interacting = Input.GetKey(key);
+        interacting = Input.GetKey(key);
         pushBox = Input.GetKey(push_box_Key);
         //箱
         if (pushBox && !hasBox)
@@ -40,16 +46,18 @@ public class PlayerHands : MonoBehaviour
         //温度
         if(interacting)
         {
-            if(Input.GetKey(up_Hot))
+            if(Input.GetKeyDown(up_Hot))
             {
+                anim.Play("TH_Magic");
                 //温度の変更
                 UseElement(Element.hot);
                 //温度+値
                 changeGradeToTarget(hot);
             }
 
-            if (Input.GetKey(down_Cold))
+            if (Input.GetKeyDown(down_Cold))
             {
+                anim.Play("O_Magic");
                 //温度の変更
                 UseElement(Element.cold);
                 //温度+ (-値）
