@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class PlayerHands : MonoBehaviour
 {
+    //create cube near the interessed point
+    public GameObject marker;
+    List<GameObject> markators = new List<GameObject>();
+    List<Transform> targets = new List<Transform>();
+
     [SerializeField]
     float radius = 5;
+    [SerializeField]
+    KeyCode reveal_Input = KeyCode.R;
 
     [SerializeField]
     KeyCode InvertInput = KeyCode.F;
@@ -28,6 +35,7 @@ public class PlayerHands : MonoBehaviour
     {
         pushBox = Input.GetKey(push_box_Key);
         bool invert = Input.GetKey(InvertInput);
+        bool reveal = Input.GetKey(reveal_Input);
         //箱
         if (pushBox && !hasBox)
         {
@@ -43,27 +51,41 @@ public class PlayerHands : MonoBehaviour
             }
             
         }
-        if(invert)
+
+        if (invert)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-            GameObject block=null;
-            //create list and apply manipulation
-            foreach (var c in colliders)
-            {
-                Block manipulate = c.GetComponent<Block>();
-                if (manipulate != null)
-                {
-                    block = manipulate.gameObject;
-                    break;
-                }
-            }
-            if (block == null) return;
-            anim.Play("O_Magic");
-            BlockManager.Instance.ChangeBlock(block);
+            Invert_Blocks();
+        }
+
+        if (reveal)
+        {
+            reveal_Blocks();
+        }
+        else
+        {
+            clearMarkators();
         }
     }
 
-
+    void Invert_Blocks()
+    {
+       
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        GameObject block = null;
+        //create list and apply manipulation
+        foreach (var c in colliders)
+        {
+            Block manipulate = c.GetComponent<Block>();
+            if (manipulate != null)
+            {
+                block = manipulate.gameObject;
+                break;
+            }
+        }
+        if (block == null) return;
+        anim.Play("O_Magic");
+        BlockManager.Instance.ChangeBlock(block);
+    }
     #region BOX
     void releaseBox()
     {
@@ -87,6 +109,63 @@ public class PlayerHands : MonoBehaviour
                 break;
             }
         }
+    }
+    #endregion
+
+    #region Graphic
+    void reveal_Blocks()
+    {
+        
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        
+        //create list and apply manipulation
+        foreach (var c in colliders)
+        {
+            Block manipulate = c.GetComponent<Block>();
+            if (manipulate != null)
+            {
+                addTarget(c.transform);
+            }
+        }
+        
+    }
+
+    //controll if target exist
+    void addTarget(Transform tr)
+    {
+        bool exist = false;
+        //controll if piece exist,
+        if (targets.Count>0)
+        {
+            for (int i = 0; i < targets.Count; i++)
+            {
+                if (targets[i] == tr)
+                {
+                    exist = true;
+                }
+            }
+        }
+        // if not exist push in list and generate markator
+        if (!exist)
+        {
+            targets.Add(tr);
+            Vector3 spawnPos = new Vector3(tr.position.x, tr.position.y + 1, tr.position.z);
+            //use 1 of offset
+            GameObject newMarkator = Instantiate(marker, spawnPos, tr.rotation);
+            markators.Add(newMarkator);
+        }
+    }
+
+    //return if list is empty
+    void clearMarkators()
+    {
+        if (targets.Count < 1||markators.Count<1) return;
+        targets.Clear();
+        foreach(var m in markators)
+        {
+            Destroy(m.gameObject);
+        }
+        markators.Clear();
     }
     #endregion
 }
