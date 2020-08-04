@@ -146,7 +146,7 @@ public class Player : MonoBehaviour
             GameObject obj = hit.collider.gameObject;
             if (obj.gameObject.layer == 10)
             {
-                if (!obj.GetComponent<Block>().highLightObj.activeSelf) { obj.GetComponent<Block>().highLightObj.SetActive(true); }
+                if (!obj.GetComponent<Block>().isTarget) { obj.GetComponent<Block>().isTarget = true; }
                 if (!obj.GetComponent<Block>().isSelected)
                 {
                     selectUI.sprite = images[0];
@@ -156,17 +156,16 @@ public class Player : MonoBehaviour
                     selectUI.sprite = images[1];
                 }
 
-                if (targetObj != null && targetObj != obj) { targetObj.GetComponent<Block>().highLightObj.SetActive(false); }
+                if (targetObj != null && targetObj != obj && targetObj.GetComponent<Block>().isTarget) { targetObj.GetComponent<Block>().isTarget = false; }
+                if(targetObj != obj) { targetObj = obj; }
 
-                if (selectUI.IsActive()) { return; }
-                selectUI.gameObject.SetActive(true);
-                targetObj = obj;
+                if (!selectUI.IsActive()) { selectUI.gameObject.SetActive(true); }
             }
             else
             {
                 if (!selectUI.IsActive()) { return; }
                 selectUI.gameObject.SetActive(false);
-                targetObj.GetComponent<Block>().highLightObj.SetActive(false);
+                targetObj.GetComponent<Block>().isTarget = false;
                 targetObj = null;
             }
         }
@@ -174,7 +173,7 @@ public class Player : MonoBehaviour
         {
             if (!selectUI.IsActive()) { return; }
             selectUI.gameObject.SetActive(false);
-            targetObj.GetComponent<Block>().highLightObj.SetActive(false);
+            targetObj.GetComponent<Block>().isTarget = false;
             targetObj = null;
         }
     }

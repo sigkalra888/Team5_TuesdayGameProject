@@ -21,7 +21,9 @@ public class Block : MonoBehaviour
     private float totalTime = 0;
 
     [HideInInspector]
-    public bool isSelected = false; //プレイヤーに選択されているかの判定
+    public bool isSelected = false; //交換の対象になっているかの判定
+    [HideInInspector]
+    public bool isTarget = false;   //プレイヤーに選択されているかの判定
 
     public GameObject highLightObj;
 
@@ -53,6 +55,9 @@ public class Block : MonoBehaviour
     void Update()
     {
         ReturnTemperature();
+
+        if (!isTarget && !isSelected && highLightObj.activeSelf) { highLightObj.SetActive(false); }
+        else if(isTarget && !highLightObj.activeSelf) { highLightObj.SetActive(true); }
     }
 
     //温度交換による色の変化
