@@ -118,6 +118,12 @@ public class Player : MonoBehaviour
     {
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1));
         Vector3 moveForward = cameraForward * v + Camera.main.transform.right * h;
+        Ray ray = new Ray(myPos,(myQ * new Vector3(0, 0, 1)));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 0.5f)) 
+        {
+            
+        }
         transform.position += moveForward * moveSpeed;
 
         if (moveForward != Vector3.zero)
@@ -143,6 +149,7 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 0.5f))
         {
+            Debug.Log(hit.collider.name);
             GameObject obj = hit.collider.gameObject;
             if (obj.gameObject.layer == 10)
             {

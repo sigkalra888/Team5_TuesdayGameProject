@@ -6,6 +6,8 @@ public class BoxController : MonoBehaviour
 {
     [SerializeField]
     private GameObject[] angleCollider;
+    [SerializeField]
+    private float speed;
     private string[] angleName = new string[4] { "left", "right", "flont", "back"};
 
     private struct PushFlag
@@ -16,33 +18,20 @@ public class BoxController : MonoBehaviour
 
     PushFlag[] pFlag = new PushFlag[4];
 
+    private int angleIndex = -1;
+    private float moveDistance = 0;
     private bool isPush = false;
     
     void Start()
     {
         BoxParamInit();
+        RayCheack();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad0))
-        {
-            PushBox(0);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad1))
-        {
-            PushBox(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad2))
-        {
-            PushBox(2);
-        }
-        else if (Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            PushBox(3);
-        }
-
-        RayCheack();
+        if (!isPush) { return; }
+        PushBox();
     }
 
     private void BoxParamInit()
@@ -58,27 +47,40 @@ public class BoxController : MonoBehaviour
     /// 指定方向に押す
     /// </summary>
     /// <param name="angleIndex"></param>
-    public void PushBox(int angleIndex)
+    public void AngleCheackForPushBox(GameObject player)
     {
-        Debug.Log(angleIndex + ":" + pFlag[angleIndex].pushFlag);
-        if (!pFlag[angleIndex].pushFlag) { Debug.Log("これ以上押せない！"); return; }
+        if (isPush) { return; }
+        angleIndex = anglecheack(player);
+        if (!pFlag[angleIndex].pushFlag || angleIndex == -1) { Debug.Log("これ以上押せない！"); return; }
+        isPush = true;
+    }
 
-        switch (angleIndex) 
+    private void PushBox()
+    {
+        switch (angleIndex)
         {
             case 0:
-                transform.position += new Vector3(1, 0, 0);
+                transform.position += new Vector3(speed, 0, 0);
                 break;
             case 1:
-                transform.position += new Vector3(-1, 0, 0);
+                transform.position += new Vector3(-speed, 0, 0);
                 break;
             case 2:
-                transform.position += new Vector3(0, 0, 1);
+                transform.position += new Vector3(0, 0, speed);
                 break;
             case 3:
-                transform.position += new Vector3(0, 0, -1);
+                transform.position += new Vector3(0, 0, -speed);
                 break;
         }
 
+        moveDistance += speed;
+
+        if (moveDistance >= 1)
+        {
+            moveDistance = 0;
+            isPush = false;
+            RayCheack();
+        }
     }
 
     /// <summary>
@@ -116,17 +118,41 @@ public class BoxController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 0.5f))
             {
                 //非干渉ブロックに触れている方向に対応したpushFlagをfalseにする
-                if(hit.collider.gameObject.layer == 9)
+                if(hit.collider.gameObject.layer == 9 && pFlag[x].pushFlag)
                 {
-                    Debug.Log(hit.collider.gameObject.layer);
-                    if (!pFlag[x].pushFlag) { return; }
-                    Debug.Log("x:" + x);
                     pFlag[x].pushFlag = false;
-                    Debug.Log(x + ":" + pFlag[x].pushFlag);
                 }
             }
-            
-            Debug.DrawRay(ray.origin, ray.direction * 0.5f, Color.red);
+            else if (!pFlag[x].pushFlag)
+            {
+                pFlag[x].pushFlag = true;
+            }
         }
+    }
+
+    private int anglecheack(GameObject player)
+    {
+        Vector3 diff = player.transform.position - transform.position;
+        Vector3 axis = Vector3.Cross(transform.forward, diff);
+        float angle = Vector3.Angle(transform.forward, diff) * (axis.y < 0 ? -1 : 1);
+        Debug.Log(angle);
+
+        if (angle > -45 && angle <= 45)
+        {
+            return 3;
+        }
+        else if (angle > -135 && angle <= -45)
+        {
+            return 0;
+        }
+        else if (angle > 135 && angle <= -135)
+        {
+            return 4;
+        }
+        else if (angle > 45 && angle <= 135)
+        {
+            return 1;
+        }
+        return -1;
     }
 }
