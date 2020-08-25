@@ -149,12 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9a57a2fc08c6f4a8738cd86f3f72fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageName: 
+  stageName: NormalMode
   loadStage: 0
   isSave: 0
   isCreateStage: 0
   objName: 
-  cells: {x: 5, y: 5, z: 5}
+  cells: {x: 8, y: 5, z: 5}
   cellNum: {x: 0, y: 0, z: 0}
   mainCamera: {fileID: 544227102}
   gridObj: {fileID: 6396183988339959919, guid: e4b0fdbf15ed24a43953a01d3d95e90b, type: 3}
