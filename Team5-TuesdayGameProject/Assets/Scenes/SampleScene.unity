@@ -179,18 +179,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 12
     m_FontStyle: 1
     m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 51
+    m_MinSize: 0
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Change Color?
+  m_Text: "Change Color?\n\u8ECA\u62BC\u3059\u3068ui\u304C\u51FA\u308B\n\u30DB\u30A4\u30FC\u30EB\u30DC\u30BF\u62BC\u3059\u3068yes\u304B\u3089no\u306B\u5909\u308F\u308B"
 --- !u!222 &102125542
 CanvasRenderer:
   m_ObjectHideFlags: 0
