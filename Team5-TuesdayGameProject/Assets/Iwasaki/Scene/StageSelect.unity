@@ -402,10 +402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b330953cd9c45cb438488ff41dd77631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toStageSelectBool: 0
-  toTitleBool: 0
-  toStage1Bool: 0
-  toStage2Bool: 0
 --- !u!4 &1336267012
 Transform:
   m_ObjectHideFlags: 0
@@ -856,7 +852,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2039402182}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b1f349a1b7e74d40abb9e7aa7756e1c, type: 3}
+  m_Script: {fileID: 11500000, guid: fc70d9ee156ff1b4b801e435786352dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2039402185
@@ -903,7 +899,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2039402184}
-        m_MethodName: Stage2
+        m_MethodName: stage2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
