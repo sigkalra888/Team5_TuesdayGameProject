@@ -1,40 +1,45 @@
 ﻿using UnityEngine;
 
-public class Player2 : MonoBehaviour
+namespace taoye
 {
-    public float speed;//speed
-
-    private void Update()
+    public class Player : MonoBehaviour
     {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        transform.Translate(new Vector3(h, 0, v) * Time.deltaTime * speed);
+        public float speed;//speed
 
-        if (Input.GetMouseButton(0))
+        private void Update()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo))
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
+            transform.Translate(new Vector3(h, 0, v) * Time.deltaTime * speed);
+
+            if (Input.GetMouseButton(0))
             {
-                switch (hitInfo.collider.tag)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(ray, out hitInfo))
                 {
-                    case "Cube1":
-                        UIManager.Instance.ShowDesPanel("Cube1");
-                        break;
-                    case "Cube2":
-                        UIManager.Instance.ShowDesPanel("Cube2");
-                        break;
-                    case "Cube3":
-                        UIManager.Instance.ShowDesPanel("Cube3");
-                        break;
-                    case "Cube4":
-                        UIManager.Instance.ShowDesPanel("Cube4");
-                        break;
-                    case "Cube5":
-                        UIManager.Instance.ShowDesPanel("Cube5");
-                        break;
+                    switch (hitInfo.collider.tag)
+                    {
+                        case "Cube1":
+                            UIManager.Instance.ShowDesPanel("Cube1");
+                            break;
+                        case "Cube2":
+                            UIManager.Instance.ShowDesPanel("Cube2");
+                            break;
+                        case "Cube3":
+                            UIManager.Instance.ShowDesPanel("Cube3");
+                            break;
+                        case "Cube4":
+                            UIManager.Instance.ShowDesPanel("Cube4");
+                            break;
+                        case "Cube5":
+                            UIManager.Instance.ShowDesPanel("Cube5");
+                            break;
+                    }
                 }
             }
         }
     }
+
 }
+

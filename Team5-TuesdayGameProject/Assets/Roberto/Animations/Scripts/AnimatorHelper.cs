@@ -11,6 +11,6 @@ public class AnimatorHelper : MonoBehaviour
     }
     public void SetPosition()
     {
-        player.setTheTopPos();
+        player.climb_controll.setTheTopPos();
     }
 }
