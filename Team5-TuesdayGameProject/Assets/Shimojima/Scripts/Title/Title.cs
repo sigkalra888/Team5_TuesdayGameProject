@@ -5,7 +5,7 @@ using UnityEngine;
 public class Title : MonoBehaviour
 {
     [SerializeField]
-    private GameObject[] animationObj;
+    private GameObject[] animationObj=null;
     private Animator rogoA, fadeRogoA, flontImageA;
     private float time = 0;
     private float sTime = 0;

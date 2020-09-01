@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class Locomotion : MonoBehaviour
 {
-    CharacterController controller;
-    float vertical;
-    float horizontal;
-    Animator anim;
+    [HideInInspector]
+    public CharacterController controller;
+    public float vertical;
+    public float horizontal;
+    [HideInInspector]
+    public Animator anim;
     GameObject model;
     PlayerHands hands;
     bool pushing = false;
@@ -24,15 +26,10 @@ public class Locomotion : MonoBehaviour
     bool jumping = false;
     public float speedSmoothTime = 0.1f;
     float speedSmoothVelocity;
-    float currentSpeed;
+    public float currentSpeed;
     float velocity_Y=0;
-    //climb
-    bool climbing = false;
-    bool climbingUp = false;
     [HideInInspector]
-    public Vector3 top;
-    bool reachTheTop = false;
-    
+    public ClimbingControll climb_controll;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +37,7 @@ public class Locomotion : MonoBehaviour
         model = anim.gameObject;
         controller = GetComponent<CharacterController>();
         hands = GetComponent<PlayerHands>();
+        climb_controll = new ClimbingControll(this);
     }
 
     private void FixedUpdate()
@@ -54,10 +52,9 @@ public class Locomotion : MonoBehaviour
         bool interacting = hands.interacting;
         if (interacting) return;
 
-        if (climbing)
+        if (climb_controll.climbing)
         {
-            climbHandler();
-           
+            climb_controll.climbHandler();
         }
         else
         {
@@ -108,8 +105,7 @@ void Move()
         jumping = !controller.isGrounded;
         if(jumping)
         {
-            reachTheTop = false;
-            if (Input.GetKey(KeyCode.M))
+           if (Input.GetKey(KeyCode.M))
             {
                
                 Collider[] colls = Physics.OverlapBox(transform.position,new Vector3(2,2,2));
@@ -117,15 +113,15 @@ void Move()
                 {
                     if(c.gameObject.tag=="Climb")
                     {
-                        climbing = true;
-                        anim.SetBool("climbing", climbing);
+                        climb_controll.climbing = true;
+                        anim.SetBool("climbing", climb_controll.climbing);
                         anim.SetTrigger("climb");
                         
                     }
                 }
             }
         }
-        climbingUp = false;
+        
     }
     void animationHandler()
     {
@@ -135,72 +131,7 @@ void Move()
         anim.SetFloat("Vertical",currentSpeed, speedSmoothTime, Time.deltaTime);
     }
 
-    void climbHandler()
-    {
-        if(!reachTheTop)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-            Vector3 velocity = transform.up * vertical;
-            currentSpeed = velocity.magnitude;
-            //pushing animation
-            controller.Move(velocity * Time.deltaTime);
-        }
-        else
-        {
-            currentSpeed = 0;
-        }
-        //jump down
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            dislocate();
-
-        }
-        FindTop();
-        if(reachTheTop&&Input.GetKeyDown(KeyCode.N))
-        {
-            StartCoroutine(goUpCO());
-        }
-    }
-
-
-    IEnumerator goUpCO()
-    {
-        anim.SetTrigger("ClimbUP");
-        yield return new WaitForSeconds(3f);
-        climbing = false;
-       // anim.SetBool("climbing",climbing);
-        yield return null;
-        
-    }
-
-    void FindTop()
-    {
-        
-        //check
-        Collider[] colls = Physics.OverlapBox(transform.position, new Vector3(2,2, 2));
-        foreach (var c in colls)
-        {
-            if (c.gameObject.tag == "Top")
-            {
-                reachTheTop = true;
-                //get position of child element
-                top = c.transform.GetChild(0).transform.position;
-            }
-        }
-        
-    }
-    public void setTheTopPos()
-    {
-        transform.position = top;
-    }
-    //go downfrom wall
-    void dislocate()
-    {
-        reachTheTop = false;
-        climbing = false;
-        anim.SetBool("climb", climbing);
-        transform.localScale = new Vector3(1, 1, 1);
-    }
+ 
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position,new Vector3(2,2,2));
