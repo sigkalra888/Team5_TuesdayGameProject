@@ -21,6 +21,7 @@ public class BoxController : MonoBehaviour
     private int angleIndex = -1;
     private float moveDistance = 0;
     private bool isPush = false;
+    private GameObject p;
     
     void Start()
     {
@@ -50,7 +51,8 @@ public class BoxController : MonoBehaviour
     public void AngleCheackForPushBox(GameObject player)
     {
         if (isPush) { return; }
-        angleIndex = anglecheack(player);
+        p = player;
+        angleIndex = Anglecheack(player);
         if (!pFlag[angleIndex].pushFlag || angleIndex == -1) { Debug.Log("これ以上押せない！"); return; }
         isPush = true;
     }
@@ -79,6 +81,8 @@ public class BoxController : MonoBehaviour
         {
             moveDistance = 0;
             isPush = false;
+            p.transform.SetParent(null);
+            p.GetComponent<PlayerHands>().interacting = false;
             RayCheack();
         }
     }
@@ -130,13 +134,12 @@ public class BoxController : MonoBehaviour
         }
     }
 
-    private int anglecheack(GameObject player)
+    private int Anglecheack(GameObject player)
     {
         Vector3 diff = player.transform.position - transform.position;
         Vector3 axis = Vector3.Cross(transform.forward, diff);
         float angle = Vector3.Angle(transform.forward, diff) * (axis.y < 0 ? -1 : 1);
-        Debug.Log(angle);
-
+        float a = angle;
         if (angle > -45 && angle <= 45)
         {
             return 3;
@@ -145,9 +148,9 @@ public class BoxController : MonoBehaviour
         {
             return 0;
         }
-        else if (angle > 135 && angle <= -135)
+        else if (Mathf.Abs(angle) > 135 && (angle * (a < 0? 1 : -1)) <= -135)
         {
-            return 4;
+            return 2;
         }
         else if (angle > 45 && angle <= 135)
         {

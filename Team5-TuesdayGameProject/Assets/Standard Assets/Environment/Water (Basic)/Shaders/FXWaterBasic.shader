@@ -2,17 +2,21 @@
 
 Shader "FX/Water (Basic)" {
 Properties {
+	_DeltaTime("Time", float) = 0
+	_Color("Color", Color) = (1,1,1,1)
 	_horizonColor ("Horizon color", COLOR)  = ( .172 , .463 , .435 , 0)
 	_WaveScale ("Wave scale", Range (0.02,0.15)) = .07
 	[NoScaleOffset] _ColorControl ("Reflective color (RGB) fresnel (A) ", 2D) = "" { }
 	[NoScaleOffset] _BumpMap ("Waves Normalmap ", 2D) = "" { }
-	WaveSpeed ("Wave speed (map1 x,y; map2 x,y)", Vector) = (19,9,-16,-7)
-	}
+	WaveSpeed("Wave speed (map1 x,y; map2 x,y)", Vector) = (19,9,-16,-7)
+}
 
 CGINCLUDE
 
 #include "UnityCG.cginc"
 
+float _DeltaTime;
+fixed4 _Color;
 uniform float4 _horizonColor;
 
 uniform float4 WaveSpeed;
@@ -37,11 +41,10 @@ v2f vert(appdata v)
 	float4 s;
 
 	o.pos = UnityObjectToClipPos(v.vertex);
-
 	// scroll bump waves
 	float4 temp;
 	float4 wpos = mul (unity_ObjectToWorld, v.vertex);
-	temp.xyzw = wpos.xzxz * _WaveScale + _WaveOffset;
+	temp.xyzw = (wpos.xzxz * _WaveScale * _DeltaTime) + _WaveOffset;
 	o.bumpuv[0] = temp.xy * float2(.4, .45);
 	o.bumpuv[1] = temp.wz;
 
@@ -77,7 +80,9 @@ half4 frag( v2f i ) : COLOR
 	half4 water = tex2D( _ColorControl, float2(fresnel,fresnel) );
 	
 	half4 col;
+
 	col.rgb = lerp( water.rgb, _horizonColor.rgb, water.a );
+	col.rgb *= _Color;
 	col.a = _horizonColor.a;
 
 	UNITY_APPLY_FOG(i.fogCoord, col);

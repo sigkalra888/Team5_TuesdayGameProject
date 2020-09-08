@@ -53,11 +53,13 @@ public class PressButton : MonoBehaviour
 
     private void RayHit()
     {
-        Vector3 myPos = pressP.transform.position;
+        Vector3 myPos = pressP.transform.position + new Vector3(0, -0.3f, 0);
         Ray ray = new Ray(myPos , new Vector3(0, 1, 0));
         RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction, Color.red, 0.5f);
         if (Physics.Raycast(ray, out hit, 0.5f))
         {
+            Debug.Log(hit.collider.gameObject.name);
             if (isPress) { return; }
             if (hit.collider.gameObject.name == "Box")
             {

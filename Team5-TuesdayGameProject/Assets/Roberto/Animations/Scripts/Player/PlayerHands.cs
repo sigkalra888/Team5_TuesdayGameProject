@@ -69,28 +69,31 @@ public class PlayerHands : MonoBehaviour
 
     void Invert_Blocks()
     {
-       
-        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
-        GameObject block = null;
-        //create list and apply manipulation
-        foreach (var c in colliders)
+
+        //Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        //GameObject block = null;
+        ////create list and apply manipulation
+        //foreach (var c in colliders)
+        //{
+        //    Block manipulate = c.GetComponent<Block>();
+        //    if (manipulate != null)
+        //    {
+        //        block = manipulate.gameObject;
+        //        break;
+        //    }
+        //}
+        //if (block == null) return;
+        if (gameObject.GetComponent<Locomotion>().targetObj != null) 
         {
-            Block manipulate = c.GetComponent<Block>();
-            if (manipulate != null)
-            {
-                block = manipulate.gameObject;
-                break;
-            }
+            anim.Play("O_Magic");
         }
-        if (block == null) return;
-        anim.Play("O_Magic");
-        BlockManager.Instance.ChangeBlock(block);
     }
     #region BOX
     void releaseBox()
     {
         hasBox = false;
-        box.transform.SetParent(null);
+        interacting = false;
+        //box.transform.SetParent(null);
         box = null;
     }
 
@@ -102,10 +105,13 @@ public class PlayerHands : MonoBehaviour
         {
             if (c.gameObject.tag=="Box")
             {
+                interacting = true;
                 hasBox = true;
                 box = c.gameObject;
-                box.transform.SetParent(this.transform);
-                box.transform.localPosition = new Vector3(0,0,1);
+                //box.transform.SetParent(this.transform);
+                transform.SetParent(box.transform);
+                box.GetComponent<BoxController>().AngleCheackForPushBox(gameObject);
+                //box.transform.localPosition = new Vector3(0,0,1);
                 break;
             }
         }

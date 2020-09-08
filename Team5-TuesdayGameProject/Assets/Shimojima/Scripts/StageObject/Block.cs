@@ -40,6 +40,7 @@ public class Block : MonoBehaviour
     private Color normal = new Color(0.51f, 0.51f, 0.51f, 1);
 
     private string brockName = "";
+    private float time;
 
     private void Awake()
     {
@@ -47,6 +48,10 @@ public class Block : MonoBehaviour
         if (sceneName == "StageEdit") { return; }
         //初期温度に変更
         temperature = defaultTemperature;
+        if (temperature != "Hot")
+        {
+            transform.GetChild(1).gameObject.SetActive(false);
+        }
         brockName = name;
         myC = GetComponent<MeshRenderer>().material.color;
 
@@ -54,6 +59,23 @@ public class Block : MonoBehaviour
 
     void Update()
     {
+        if (name == "HotBlock")
+        {
+            if (temperature == "Hot")
+            {
+                time += (Time.deltaTime / 40);
+
+                if (time >= 1)
+                {
+                    float t = time - 1;
+                    time = t;
+                }
+
+                GetComponent<MeshRenderer>().material.SetFloat("_DeltaTime", time);
+            }
+            
+        }
+
         ReturnTemperature();
 
         if (!isTarget && !isSelected && highLightObj.activeSelf) { highLightObj.SetActive(false); }
@@ -67,14 +89,17 @@ public class Block : MonoBehaviour
         {
             case "Hot":
                 GetComponent<MeshRenderer>().material.color = hot;
+                transform.GetChild(1).gameObject.SetActive(true);
                 myC = hot;
                 break;
             case "Ice":
                 GetComponent<MeshRenderer>().material.color = ice;
+                transform.GetChild(1).gameObject.SetActive(false);
                 myC = ice;
                 break;
             case "Normal":
                 GetComponent<MeshRenderer>().material.color = normal;
+                transform.GetChild(1).gameObject.SetActive(false);
                 myC = normal;
                 break;
         }
@@ -109,12 +134,15 @@ public class Block : MonoBehaviour
         switch (defaultTemperature)
         {
             case "Hot":
+                transform.GetChild(1).gameObject.SetActive(true);
                 DoChangeHotColor();
                 break;
             case "Ice":
+                transform.GetChild(1).gameObject.SetActive(false);
                 DoChangeIceColor();
                 break;
             case "Normal":
+                transform.GetChild(1).gameObject.SetActive(false);
                 DoChangeNormalColor();
                 break;
         }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Locomotion : MonoBehaviour
 {
@@ -30,6 +31,17 @@ public class Locomotion : MonoBehaviour
     float velocity_Y=0;
     [HideInInspector]
     public ClimbingControll climb_controll;
+
+    private Vector3 myPos = Vector3.zero;
+    private Quaternion myQ = new Quaternion();
+    public GameObject targetObj;
+    private float defaultSpeed;
+
+    [SerializeField]
+    private Image selectUI;
+    [SerializeField]
+    private Sprite[] images;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +50,7 @@ public class Locomotion : MonoBehaviour
         controller = GetComponent<CharacterController>();
         hands = GetComponent<PlayerHands>();
         climb_controll = new ClimbingControll(this);
+        defaultSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
@@ -49,7 +62,18 @@ public class Locomotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        myPos = transform.position;
+        myQ = transform.rotation;
+        animationHandler();
         bool interacting = hands.interacting;
+        RayHitCheack();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            targetObj.GetComponent<Block>().isSelected = true;
+            BlockManager.Instance.SetBlock(targetObj);
+        }
+
         if (interacting) return;
 
         if (climb_controll.climbing)
@@ -60,8 +84,6 @@ public class Locomotion : MonoBehaviour
         {
             Move();
         }
-       
-        animationHandler();
     }
 
     private void Jump()
@@ -131,7 +153,68 @@ void Move()
         anim.SetFloat("Vertical",currentSpeed, speedSmoothTime, Time.deltaTime);
     }
 
- 
+    private void RayHitCheack()
+    {
+        bool isOff = false;
+        Vector3 startPos = myPos + (myQ * new Vector3(0, -0.5f, 0.45f));
+        Vector3 startPos2 = myPos + (myQ * new Vector3(0, 0, 0.2f));
+        Ray rayF = new Ray(startPos2, transform.forward);
+        RaycastHit hitF;
+        Debug.DrawRay(rayF.origin, rayF.direction, Color.red, 0.5f);
+        if (Physics.Raycast(rayF, out hitF, 0.2f))
+        {
+            GameObject obj = hitF.collider.gameObject;
+            if (obj.layer != 10)
+            {
+                if (!selectUI.IsActive()) { return; }
+                selectUI.gameObject.SetActive(false);
+                targetObj.GetComponent<Block>().isTarget = false;
+                targetObj = null;
+                isOff = true;
+            }
+        }
+
+        if (isOff) { return; }
+        Ray ray = new Ray(startPos, new Vector3(0, -1, 0));
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 0.5f))
+        {
+            GameObject obj = hit.collider.gameObject;
+            if (obj.layer == 10)
+            {
+                if (!obj.GetComponent<Block>().isTarget) { obj.GetComponent<Block>().isTarget = true; }
+                if (!obj.GetComponent<Block>().isSelected)
+                {
+                    selectUI.sprite = images[0];
+                }
+                else
+                {
+                    selectUI.sprite = images[1];
+                }
+
+                if (targetObj != null && targetObj != obj && targetObj.GetComponent<Block>().isTarget) { targetObj.GetComponent<Block>().isTarget = false; }
+                if (targetObj != obj) { targetObj = obj; }
+
+                if (!selectUI.IsActive()) { selectUI.gameObject.SetActive(true); }
+            }
+            else
+            {
+                if (!selectUI.IsActive()) { return; }
+                selectUI.gameObject.SetActive(false);
+                targetObj.GetComponent<Block>().isTarget = false;
+                targetObj = null;
+            }
+        }
+        else
+        {
+            if (!selectUI.IsActive()) { return; }
+            selectUI.gameObject.SetActive(false);
+            targetObj.GetComponent<Block>().isTarget = false;
+            targetObj = null;
+        }
+    }
+
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position,new Vector3(2,2,2));

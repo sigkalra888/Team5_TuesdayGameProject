@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2170218575471911688}
   - component: {fileID: 177385170648485651}
   - component: {fileID: 1251113714877365776}
+  - component: {fileID: 4859659753366961916}
   m_Layer: 0
   m_Name: Box
   m_TagString: Box
@@ -62,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3c3ba8f20e8b8d04a894abf373e31240, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,6 +101,20 @@ MonoBehaviour:
   - {fileID: 4728604965503268231}
   - {fileID: 6966609010715011641}
   - {fileID: 7461853906972647046}
+  speed: 0.04
+--- !u!65 &4859659753366961916
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3372148576927843364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4728604965503268231
 GameObject:
   m_ObjectHideFlags: 0
