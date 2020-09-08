@@ -175,7 +175,7 @@ MonoBehaviour:
   temperature: Hot
   defaultTemperature: Hot
   changeTemperature: 0
-  resetTime: 5
+  resetTime: 10
   isSelected: 0
   isTarget: 0
   highLightObj: {fileID: 5216168549022408168}

@@ -122,7 +122,7 @@ public class BoxController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, 0.5f))
             {
                 //非干渉ブロックに触れている方向に対応したpushFlagをfalseにする
-                if(hit.collider.gameObject.layer == 9 && pFlag[x].pushFlag)
+                if(hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 10 && pFlag[x].pushFlag)
                 {
                     pFlag[x].pushFlag = false;
                 }

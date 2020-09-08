@@ -70,8 +70,11 @@ public class Locomotion : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.F))
         {
-            targetObj.GetComponent<Block>().isSelected = true;
-            BlockManager.Instance.SetBlock(targetObj);
+            if (targetObj != null)
+            {
+                targetObj.GetComponent<Block>().isSelected = true;
+                BlockManager.Instance.SetBlock(targetObj);
+            }
         }
 
         if (interacting) return;
