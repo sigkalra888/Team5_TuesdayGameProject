@@ -7,10 +7,10 @@ public class toStage : MonoBehaviour
 {
     public void stage1()
     {
-        SceneManager.LoadScene("Stage1");
+        SceneManager.LoadScene("Stage01");
     }
     public void stage2()
     {
-        SceneManager.LoadScene("Stage2");
+        SceneManager.LoadScene("Stage01");
     }
 }

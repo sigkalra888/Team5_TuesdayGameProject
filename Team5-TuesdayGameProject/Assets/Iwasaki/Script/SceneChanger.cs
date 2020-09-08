@@ -12,7 +12,8 @@ public class SceneChanger : SingletonMonoBehaviour<SceneChanger>
         StageSelect,
         Stage1,
         Stage2,
-        TestScene
+        TestScene,
+        Stage01
     }
     //連打対策
     private bool doOnceSceneChange = true;

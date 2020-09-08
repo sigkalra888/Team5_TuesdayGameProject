@@ -9,6 +9,7 @@ public class BoxController : MonoBehaviour
     [SerializeField]
     private float speed;
     private string[] angleName = new string[4] { "left", "right", "flont", "back"};
+    private AudioSource audio;
 
     private struct PushFlag
     {
@@ -25,6 +26,7 @@ public class BoxController : MonoBehaviour
     
     void Start()
     {
+        audio = GetComponent<AudioSource>();
         BoxParamInit();
         RayCheack();
     }
@@ -55,6 +57,7 @@ public class BoxController : MonoBehaviour
         angleIndex = Anglecheack(player);
         if (!pFlag[angleIndex].pushFlag || angleIndex == -1) { Debug.Log("これ以上押せない！"); return; }
         isPush = true;
+        audio.Play();
     }
 
     private void PushBox()
